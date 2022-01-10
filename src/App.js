@@ -1,5 +1,6 @@
 import React from 'react'
 import './App.css';
+import { WORDS } from './words';
 
 
 const VIEWS = {
@@ -50,7 +51,7 @@ export default class App extends React.Component {
   }
 
   static generateWord() {
-    return "peels";
+    return WORDS[Math.floor(Math.random()*WORDS.length)];
   }
 
   beginGame() {
@@ -200,14 +201,14 @@ export default class App extends React.Component {
         })
       );
       if (i === 1) {
-        keyboard_row.unshift(<div className="space"></div>);
-        keyboard_row.push(<div className="space"></div>);
+        keyboard_row.unshift(<div className="space" key="SPACE1"></div>);
+        keyboard_row.push(<div className="space" key="SPACE2"></div>);
       }
       if (i === 2) {
         keyboard_row.unshift(<div className="KEY_DEFAULT action" onClick={() => this.submitGuess()} key="ENTER">ENTER</div>);
         keyboard_row.push(<div className="KEY_DEFAULT action material-icons" onClick={() => this.delChar()} key="DEL">&#xe14a;</div>);
       }
-      keyboard.push(<div className="keyboard-row">{keyboard_row}</div>);
+      keyboard.push(<div className="keyboard-row" key={i}>{keyboard_row}</div>);
     }
 
     if (this.state.history.length === 6 || this.state.guess_was_correct) {
