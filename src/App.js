@@ -192,6 +192,7 @@ export default class App extends React.Component {
         <div className="App" onClick={() => this.beginGame()}>
           <div className="App-header">
             <h2>the daily <a href="https://www.powerlanguage.co.uk/wordle/" target="_blank">Wordle</a> without limits</h2>
+            <h6>Game stats coming soon...</h6>
             <h6>click anywhere to play again</h6>
           </div>
         </div>
