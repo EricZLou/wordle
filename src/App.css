@@ -181,6 +181,12 @@ a {
   justify-content: center;
   align-items: center;
 }
+.keyboard-row > div:not(.space):hover {
+  cursor: pointer;
+}
+.keyboard-row > div:not(.space):active {
+  filter: brightness(70%);
+}
 .keyboard-row > div.space {
   flex: 0.5;
 }
