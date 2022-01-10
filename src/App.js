@@ -38,6 +38,7 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       view: VIEWS.WELCOME,
+      notification: null,
     };
     this.beginGame = this.beginGame.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -52,6 +53,15 @@ export default class App extends React.Component {
 
   static generateWord() {
     return WORDS[Math.floor(Math.random()*WORDS.length)];
+  }
+
+  notify(t) {
+    this.setState({notification: t});
+    if (this.timeout) clearTimeout(this.timeout);
+    this.timeout = setTimeout(() => {
+      this.timeout = null;
+      this.setState({notification: null});
+    }, 1000);
   }
 
   beginGame() {
@@ -107,7 +117,13 @@ export default class App extends React.Component {
   }
 
   submitGuess() {
-    if (this.state.current_guess.length !== 5) return;
+    if (this.state.current_guess.length !== 5) {
+      this.notify("Not enough letters");
+      return;
+    } else if (!WORDS.includes(this.state.current_guess)) {
+      this.notify("Not in word list");
+      return;
+    }
     let h = [];
     let word_freq = {...this.word_freq};
     let k_green = this.state.k_green;
@@ -227,6 +243,7 @@ export default class App extends React.Component {
 
     return (
       <div className="App">
+        {this.state.notification && <div className="notification">{this.state.notification}</div>}
         <div className="App-header2">
           <div className="grid">{grid}</div>
         </div>
