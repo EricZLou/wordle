@@ -44,8 +44,15 @@ export default class App extends React.Component {
     this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
+  setDocHeight() {
+    document.documentElement.style.setProperty('--vh', `${window.innerHeight/100}px`);
+  };
+
   componentDidMount() {
     document.addEventListener("keydown", this.handleKeyPress, false);
+    document.addEventListener("resize", this.setDocHeight);
+    document.addEventListener("orientationchange", this.setDocHeight);
+    this.setDocHeight();
   }
   componentWillUnmount() {
     document.removeEventListener("keydown", this.handleKeyPress, false);
