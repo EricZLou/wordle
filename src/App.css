@@ -96,6 +96,9 @@ a {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 80%;
+  padding-left: 10%;
+  padding-right: 10%;
 }
 .App-header2 {
   height: calc(100 * var(--vh, 1vh) - var(--keyboard-height));
@@ -104,8 +107,17 @@ a {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
 }
 
+.info {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.info:hover {
+  cursor: pointer;
+}
 .notification {
   position: absolute;
   top: 10px;
@@ -163,7 +175,7 @@ a {
   align-items: center;
   justify-content: center;
   height: var(--keyboard-height);
-  width: min(100vw - 10px, 550px);
+  width: 100%;
 }
 .keyboard-row {
   display: flex;

@@ -1,10 +1,12 @@
-import React from 'react'
+import React from 'react';
+import {
+  Routes, Route
+} from "react-router-dom";
 import './App.css';
 import { WORDS } from './words';
 
 
 const VIEWS = {
-  WELCOME: 'WELCOME',
   GAME: 'GAME',
   SCORE: 'SCORE',
 }
@@ -36,9 +38,19 @@ class DefaultDict {
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+    this.word = App.generateWord().toUpperCase();
+    this.word_freq = new DefaultDict(0);
+    for (let c of this.word) this.word_freq[c]++;
     this.state = {
-      view: VIEWS.WELCOME,
+      view: VIEWS.GAME,
+      show_welcome: false,
       notification: null,
+      current_guess: "",
+      guess_was_correct: false,
+      history: [],
+      k_green: new Set(),
+      k_yellow: new Set(),
+      k_dark: new Set(),
     };
     this.beginGame = this.beginGame.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -83,7 +95,7 @@ export default class App extends React.Component {
       k_green: new Set(),
       k_yellow: new Set(),
       k_dark: new Set(),
-    })
+    });
   }
 
   getGridItem(i, j) {
@@ -113,6 +125,8 @@ export default class App extends React.Component {
     this.setState({current_guess: this.state.current_guess.slice(0, -1)});
   }
   handleKeyPress(evt) {
+    if (this.state.show_welcome) return;
+
     const k = evt.key.toUpperCase();
     if (this.state.view === VIEWS.GAME) {
       if (k === "ENTER" && (this.state.guess_was_correct || this.state.history.length === 6))
@@ -120,7 +134,9 @@ export default class App extends React.Component {
       else if (k === "ENTER" && this.state.history.length < 6) this.submitGuess();
       else if (k === "BACKSPACE") this.delChar();
       else if (k.length === 1 && k >= "A" && k <= "Z") this.addChar(k);
-    } else if (k === "ENTER") this.beginGame();
+    } else if (k === "ENTER") {
+      this.beginGame();
+    }
   }
 
   submitGuess() {
@@ -171,17 +187,17 @@ export default class App extends React.Component {
   }
 
   render() {
-    if (this.state.view === VIEWS.WELCOME) {
+    if (this.state.show_welcome) {
       return (
-        <div className="App" onClick={() => this.beginGame()}>
-          <div className="App-header">
+        <div className="App">
+          <div className="App-header" onClick={() => this.setState({show_welcome: false})}>
             <h2>the daily <a href="https://www.powerlanguage.co.uk/wordle/" target="_blank">Wordle</a> without limits</h2>
             <i>DISCLAIMER</i>
             <small>The beauty of the daily Wordle is it doesn't take time out of your day.
               If you insist on playing this unlimited version, please continue to support the original daily Wordle
               and don't let this unlimited version take too much time out of your day.
             </small>
-            <h4 className="click-to-continue">click to begin</h4>
+            <h6>click anywhere to close</h6>
           </div>
         </div>
       );
@@ -189,8 +205,9 @@ export default class App extends React.Component {
 
     if (this.state.view === VIEWS.SCORE) {
       return (
-        <div className="App" onClick={() => this.beginGame()}>
-          <div className="App-header">
+        <div className="App">
+          <div className="info" onClick={() => this.setState({show_welcome: true})}>&#9432;</div>
+          <div className="App-header" onClick={() => this.beginGame()}>
             <h2>the daily <a href="https://www.powerlanguage.co.uk/wordle/" target="_blank">Wordle</a> without limits</h2>
             <h6>Game stats coming soon...</h6>
             <h6>click anywhere to play again</h6>
@@ -237,11 +254,12 @@ export default class App extends React.Component {
 
     if (this.state.history.length === 6 || this.state.guess_was_correct) {
       return (
-        <div className="App" onClick={() => this.setState({view: VIEWS.SCORE})}>
-          <div className="App-header2">
+        <div className="App">
+          <div className="info" onClick={() => {this.setState({show_welcome: true})}}>&#9432;</div>
+          <div className="App-header2" onClick={() => !this.state.show_welcome && this.setState({view: VIEWS.SCORE})}>
             <div className="grid">{grid}</div>
           </div>
-          <div className="keyboard-x">
+          <div className="keyboard-x" onClick={() => !this.state.show_welcome && this.setState({view: VIEWS.SCORE})}>
             <h2 className="uppercase">{this.word}</h2>
             <h6>click anywhere to continue</h6>
           </div>
@@ -251,6 +269,7 @@ export default class App extends React.Component {
 
     return (
       <div className="App">
+        <div className="info" onClick={() => {this.setState({show_welcome: true})}}>&#9432;</div>
         {this.state.notification && <div className="notification">{this.state.notification}</div>}
         <div className="App-header2">
           <div className="grid">{grid}</div>
