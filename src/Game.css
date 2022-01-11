@@ -1,0 +1,88 @@
+.CHAR_CORRECT {background-color: var(--color-correct); border: 2px solid var(--color-correct);}
+.CHAR_PRESENT {background-color: var(--color-present); border: 2px solid var(--color-present);}
+.CHAR_ABSENT {background-color: var(--color-absent); border: 2px solid var(--color-absent);}
+.CHAR_DEFAULT {background-color: var(--color-bg); border: 2px solid #3a3a3c;}
+.KEY_CORRECT {background-color: var(--key-bg-correct);}
+.KEY_PRESENT {background-color: var(--key-bg-present);}
+.KEY_ABSENT {background-color: var(--key-bg-absent);}
+.KEY_DEFAULT {background-color: var(--key-bg);}
+
+.Game-box {
+  text-align: center;
+  height: calc(100 * var(--vh, 1vh));
+  font-size: calc(10px + 2vmin);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: stretch;
+}
+.Game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  padding-left: 10%;
+  padding-right: 10%;
+  margin: auto;
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.grid-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 5px;
+}
+.grid-row > div {
+  min-height: calc(25px + 4vmax);
+  min-width: calc(25px + 4vmax);
+  font-size: calc(10px + 2vmax);
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 7px;
+  height: calc(var(--keyboard-height) - 10px);
+  width: min(100vw - 10px, 550px);
+  padding-bottom: 10px;
+}
+.keyboard-row {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 7px;
+}
+.keyboard-row > div {
+  flex: 1;
+  font-size: calc(8px + 0.8vmax);
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.keyboard-row > div:not(.space):hover {
+  cursor: pointer;
+}
+.keyboard-row > div:not(.space):active {
+  filter: brightness(70%);
+}
+.keyboard-row > div.space {
+  flex: 0.5;
+}
+.keyboard-row > div.action {
+  flex: 1.6;
+}
